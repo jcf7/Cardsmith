@@ -1,0 +1,180 @@
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "NODE_ENV=production webpack",
+    "dev": "NODE_ENV=development webpack serve --open && node server/server.js"
+  },
+
+
+  "scripts": {
+    "start": "webpack serve --hot --open --mode development",
+    "dev": "node server/server.js",
+    "build": "webpack --config webpack.config.js --mode production"
+  },
+
+
+
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node server/server.js",
+    "build": "cross-env NODE_ENV=development webpack --config webpack.config.js",
+		"dev": "cross-env NODE_ENV=development concurrently  \"nodemon server/server.js\" \"webpack-dev-server --open\""
+
+
+
+
+    const HtmlWebPackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
+const htmlPlugin = new HtmlWebPackPlugin({
+	template: "./client/index.html",
+	filename: "./index.html",
+});
+module.exports = {
+	entry: "./client/index.js",
+	output: {
+		path: path.join(__dirname, "dist"),
+		filename: "main.js",
+	},
+	mode: process.env.NODE_ENV || "development",
+	plugins: [htmlPlugin],
+	module: {
+		rules: [
+			{
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				loader: "babel-loader",
+				options: { presets: ["@babel/env", "@babel/preset-react"] },
+			},
+			{
+				test: /\.s?css$/,
+				use: ["style-loader", "css-loader", "sass-loader"],
+			},
+			{
+				test: /\.(png|svg|jpg|gif)$/,
+				loader: "file-loader",
+				options: { name: "/static/[name].[ext]" },
+			},
+		],
+	},
+	devServer: {
+		static: {
+			publicPath: path.resolve(__dirname, "dist"),
+		},
+		// historyApiFallback: true,
+		port: 8080,
+		proxy: {
+			"/": "http://localhost:3000",
+		},
+		historyApiFallback: true,
+	},
+};
+
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
+
+module.exports = {
+  entry: "./src/index.js",
+  output: {
+    filename: "bundle.[hash].js",
+    path: path.resolve(__dirname, "dist"),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+  ],
+  resolve: {
+    modules: [__dirname, "src", "node_modules"],
+    extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: require.resolve("babel-loader"),
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.png|svg|jpg|gif$/,
+        use: ["file-loader"],
+      }, 
+    ],
+  },
+};
+
+
+const path = require('path');
+const express = require('express');
+const PORT = process.env.PORT || 3000;
+const app = express();
+
+//handles parsing request body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+//handles request for static files
+app.use(express.static(path.resolve(__dirname, "../client")));
+
+//sending to the root 
+app.get('/', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, "../client/index.html"));
+});
+
+//catches any unknown routes 
+app.use('*', (req, res) => res.status(404).send('This is not the page you\'re looking for...'));
+
+//error handler
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: { err: 'An error occurred' },
+  };
+  const errorObj = Object.assign({}, defaultErr, err);
+  console.log(errorObj.log);
+  return res.status(errorObj.status).json(errorObj.message);
+});
+
+
+//listening for port and starting server 
+app.listen(PORT, () => {
+	console.log(`Server listening on port: ${PORT}...`);
+});
+
+module.exports = app; 
+
+
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+const mockResponse = {
+  foo: 'bar',
+  bar: 'foo'
+};
+
+app.get('/api', (req, res) => {
+  res.send(mockResponse);
+});
+
+
+app.get('/', (req, res) => {
+ res.status(200).send('Hello World!');
+});
+
+
+app.listen(port, function () {
+ console.log('App listening on port: ' + port);
+});
+
+
+app.get('/', (req, res) => {
+  const sqlInsert = "INSERT INTO flashcards (Question, Answer) VALUES ('memoization', 'like a cache');"
+  db.query(sqlInsert, (err, result) => {
+    res.send("hello pedro");
+    })
+//  res.status(200).send('Hello World!');
+});

@@ -1,0 +1,116 @@
+
+* {
+  box-sizing: border-box;
+  font-family: 'Ubuntu Light', 'Century Gothic', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #393939;
+}
+
+.App {
+  text-align: center;
+  background-color: darkgrey;
+  box-sizing: border-box;
+  font-family: 'Ubuntu Light', 'Century Gothic', sans-serif;
+  margin: 10;
+  padding: 10;
+  color: #393939;
+
+}
+
+.cardsDisplay {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 320px;
+  background: green 
+}
+
+.thecard {
+  text-align: center;
+  display: flex;
+  border: 3px solid green;
+  justify-content: space-around;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: all 0.5s ease;
+  background: rgb(155, 221, 226);
+}
+
+.thefront:hover{
+  transform: rotateY(180deg);
+}
+
+.thefront {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: rgb(99, 247, 0);
+  color: darkgrey;
+}
+
+.theback {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  background: #fafafa;
+  color: rgb(207, 215, 216);
+  transform: rotateY(180deg);
+
+}
+
+
+
+.creator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .creator {
+  text-align: center;
+}
+
+.creator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form input {
+  height: 60px;
+  width: 300px;
+  margin: 10px; 
+  font-size: 17px;
+} */
